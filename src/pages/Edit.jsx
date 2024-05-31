@@ -36,8 +36,18 @@ const Edit = () => {
         })
     }
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        fetch(`${API}/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(bookmark),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(() => navigate(`/bookmarks/${id}`))
+            .catch(err => console.log(err))
     }
 
     if(!bookmark) return <div>Loading...</div>
@@ -81,6 +91,9 @@ const Edit = () => {
                     <input type="submit" value="Submit"/>
                 </fieldset>
             </form>
+            <Link to={`/bookmarks/${id}`}>
+                <button>Back</button>
+            </Link>
         </div>
     );
 };
